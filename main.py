@@ -1,21 +1,16 @@
-def getInput():
-    k = int(input("Enter k: "))
-    text = input("Enter a text to encrypt: ")
-    return (k, text)
-
-
-def changeEl(el: str, alphabet: str, k: int) -> str:
+def shiftLetterLowercase(el: str, alphabet: str, shift: int) -> str:
     alphabet_len = len(alphabet)
-    i = alphabet.index(el.lower()) + k
+    i = alphabet.index(el.lower()) + shift
     el_i = i % alphabet_len
     return alphabet[el_i]
 
 
-def isUpper(el: str, alphabet: str, k: int) -> str:
-    letter = changeEl(el, alphabet, k)
+def shiftLetter(el: str, alphabet: str, shift: int) -> str:
+    letter = shiftLetterLowercase(el, alphabet, shift)
     if el.isupper():
         return letter.upper()
     return letter
+
 
 def checkInput(text, shift):
     if type(text) != str:
@@ -32,18 +27,19 @@ def encryptionCaesar(text: str, shift: int) -> str:
     checkInput(text, shift)
     for el in text:
         if el.lower() in ru_alphabet:
-            result += isUpper(el, ru_alphabet, shift)
+            result += shiftLetter(el, ru_alphabet, shift)
         elif el.lower() in eng_alphabet:
-            result += isUpper(el, eng_alphabet, shift)
+            # result += '3'
+            result += shiftLetter(el, eng_alphabet, shift)
         elif el.lower() in numbers:
-            result += isUpper(el, numbers, shift)
+            result += shiftLetter(el, numbers, shift)
         else:
             result += el
     return result
 
-print(encryptionCaesar('ABcd_WXyz__АБвг_ЬЭюя', 1))
-print(encryptionCaesar("12334", "1"))
+
+def decryptionCaesar(text: str, shift: int) -> str:
+    return encryptionCaesar(text, -shift)
 
 
-def displayResult(result):
-    print(result)
+
