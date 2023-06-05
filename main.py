@@ -20,26 +20,24 @@ def checkInput(text, shift):
 
 
 def encryptionCaesar(text: str, shift: int) -> str:
-    ru_alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
-    eng_alphabet = "abcdefghijklmnopqrstuvwxyz"
-    numbers = "0123456789"
+    alphabets = {
+        'eng': 'abcdefghijklmnopqrstuvwxyz',
+        'ru': 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя',
+        'numbers': '0123456789'
+    }
     result = ''
     checkInput(text, shift)
     for el in text:
-        if el.lower() in ru_alphabet:
-            result += shiftLetter(el, ru_alphabet, shift)
-        elif el.lower() in eng_alphabet:
-            # result += '3'
-            result += shiftLetter(el, eng_alphabet, shift)
-        elif el.lower() in numbers:
-            result += shiftLetter(el, numbers, shift)
-        else:
+        flag = True
+        for alphabet in alphabets.values():
+            if el.lower() in alphabet:
+                result += shiftLetter(el, alphabet, shift)
+                flag = False
+                break
+        if flag:
             result += el
     return result
 
 
 def decryptionCaesar(text: str, shift: int) -> str:
     return encryptionCaesar(text, -shift)
-
-
-
